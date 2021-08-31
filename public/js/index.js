@@ -6,8 +6,8 @@ const bgProgress = document.querySelector(".bg-progress");
 const progessBar = document.querySelector(".progress-bar");
 const percentDiv = document.querySelector("#percent");
 
-const host = "https://innshare.herokuapp.com/";
-const uploadUrl = host + "api/files/";
+const host = "http://localhost:8800";
+const uploadUrl = host + "/api/v1/files";
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -40,20 +40,25 @@ const upLoadFile = () => {
   progressContainer.style.display = "block";
   const file = fileInput.files[0];
   const formData = new FormData();
-  formData.append("myfile", file);
+  formData.append("file", file);
 
-  const xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      console.log(xhr.response);
-      showLink(JSON.parse(xhr.response));
-    }
-  };
+  // const xhr = new XMLHttpRequest();
+  // xhr.onreadystatechange = () => {
+  //   if (xhr.readyState === XMLHttpRequest.DONE) {
+  //     console.log(xhr.response);
+  //     showLink(JSON.parse(xhr.response));
+  //   }
+  // };
 
-  xhr.onprogress = updateProgress;
+  // xhr.onprogress = updateProgress;
 
-  xhr.open("POST", uploadUrl);
-  xhr.send(formData);
+  // xhr.open("POST", uploadUrl);
+  // xhr.send(formData);
+  axios
+    .post(uploadUrl, formData, {
+      onUploadProgress: updateProgress,
+    })
+    .then((res) => console.log(res.data));
 };
 
 const updateProgress = (e) => {
