@@ -39,7 +39,7 @@ filesRouter.post("/", upload, async (req, res) => {
     //response -> link
     res
       .status(200)
-      .json({ file: `${process.env.APP_BASE_URL}/files/${file.uuid}` });
+      .json({ file: `${process.env.APP_BASE_URL}/api/v1/show/${file.uuid}` });
   });
 });
 
