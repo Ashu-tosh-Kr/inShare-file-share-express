@@ -2,6 +2,7 @@
   --main-bg-color: #eff5fe;
   --border-color: #0288d147;
   --container-width: 500px;
+  --light-blue: #2196f3;
 }
 body,
 html {
@@ -18,6 +19,10 @@ body,
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+body {
+  flex-direction: row;
 }
 .upload-container {
   background-color: #fff;
@@ -114,5 +119,132 @@ body,
       transform: scaleX(0);
       transition: all 0.25s linear;
     }
+  }
+}
+.sharing-container {
+  width: var(--container-width);
+  margin-bottom: 20px;
+  display: none;
+
+  .input-container {
+    position: relative;
+  }
+}
+p {
+  opacity: 0.7;
+  text-align: center;
+}
+.sharing-container .input-container input {
+  color: #0000008c;
+  font-size: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px dashed var(--border-color);
+  border-radius: 6px;
+  background-color: var(--main-bg-color);
+
+  &:focus {
+    outline: none;
+  }
+}
+.input-container img {
+  position: absolute;
+  height: 22px;
+  width: 30px;
+  right: 7px;
+  top: 12px;
+  background-color: var(--main-bg-color);
+  cursor: pointer;
+}
+.email-container form {
+  border: 2px solid var(--border-color);
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.email-container,
+.send-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.email-container label {
+  margin: 5px;
+  font-size: 18px;
+}
+
+.email-container input {
+  border: none;
+  border-bottom: 2px solid var(--border-color);
+  height: 19px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.email-container input:focus {
+  outline: none;
+}
+
+.email-container .filed {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+}
+
+.send-btn-container button {
+  font-size: 18px;
+  padding: 8px 40px;
+  margin-top: 15px;
+  background: var(--main-bg-color);
+  border: none;
+  border-radius: 5px;
+  color: #607d8b;
+  cursor: pointer;
+}
+
+.toast {
+  position: absolute;
+  bottom: 10px;
+  right: 50%;
+  transform: translate(50%, 160px);
+  padding: 10px 20px;
+  background: var(--light-blue);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 18px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: transform ease-in-out 0.2s;
+}
+
+.show.toast {
+  transform: translate(50%, 0);
+}
+
+.image-vector {
+  background: url("../img/undraw-upload.svg") no-repeat center;
+  background-size: contain;
+  height: 50vh;
+  width: 50vw;
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --container-width: 320px;
+  }
+  .image-vector {
+    display: none;
+  }
+  .email-container .filed {
+    flex-direction: column;
+  }
+  .email-container .filed {
+    width: 300px;
   }
 }

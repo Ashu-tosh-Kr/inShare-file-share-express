@@ -20,11 +20,11 @@ mailRouter.post("/", async (req, res) => {
       err.statusCode = 404;
       throw err;
     }
-    if (file.sender) {
-      const err = new Error("Email already sent");
-      err.statusCode = 422;
-      throw err;
-    }
+    // if (file.sender) {
+    //   const err = new Error("Email already sent");
+    //   err.statusCode = 422;
+    //   throw err;
+    // }
 
     //send mail
     await sendMail({

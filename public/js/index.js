@@ -5,6 +5,12 @@ const progressContainer = document.querySelector(".progress-container");
 const bgProgress = document.querySelector(".bg-progress");
 const progessBar = document.querySelector(".progress-bar");
 const percentDiv = document.querySelector("#percent");
+const fileUrl = document.querySelector("#fileURL");
+const sharingContainer = document.querySelector(".sharing-container");
+const copyBtn = document.querySelector("#copyBtn");
+const emailForm = document.querySelector("#emailForm");
+const toast = document.querySelector(".toast");
+const maxAllowedSize = 10 * 1024 * 1024;
 
 const host = "http://localhost:8800";
 const uploadUrl = host + "/api/v1/files";
@@ -36,29 +42,64 @@ browseBtn.addEventListener("click", () => {
   fileInput.click();
 });
 
+copyBtn.addEventListener("click", () => {
+  fileUrl.select();
+  document.execCommand("copy");
+  showToast("Link Copied");
+});
+
+emailForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = {
+    uuid: fileUrl.value.split("/").splice(-1, 1)[0],
+    emailTo: emailForm.elements["to-email"].value,
+    emailFrom: emailForm.elements["from-email"].value,
+  };
+
+  axios
+    .post(host + "/api/v1/mail", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        sharingContainer.style.display = "none";
+        showToast("Email Sent");
+      }
+    })
+    .catch((err) => console.log(err));
+});
+
 const upLoadFile = () => {
-  progressContainer.style.display = "block";
+  if (fileInput.files.length > 1) {
+    showToast("Only upload one file");
+    fileInput.value = "";
+    return;
+  }
   const file = fileInput.files[0];
+
+  if (file.size > maxAllowedSize) {
+    showToast("File size greater than 10MB");
+    fileInput.value = "";
+    return;
+  }
+  progressContainer.style.display = "block";
   const formData = new FormData();
   formData.append("file", file);
 
-  // const xhr = new XMLHttpRequest();
-  // xhr.onreadystatechange = () => {
-  //   if (xhr.readyState === XMLHttpRequest.DONE) {
-  //     console.log(xhr.response);
-  //     showLink(JSON.parse(xhr.response));
-  //   }
-  // };
-
-  // xhr.onprogress = updateProgress;
-
-  // xhr.open("POST", uploadUrl);
-  // xhr.send(formData);
   axios
     .post(uploadUrl, formData, {
       onUploadProgress: updateProgress,
     })
-    .then((res) => console.log(res.data));
+    .then((res) => {
+      onUploadSuccess(res.data);
+    })
+    .catch((err) => {
+      fileInput.value = "";
+      showToast(err.message);
+    });
 };
 
 const updateProgress = (e) => {
@@ -68,6 +109,19 @@ const updateProgress = (e) => {
   progessBar.style.transform = `scaleX(${percent / 100})`;
 };
 
-const showLink = ({ file }) => {
+const onUploadSuccess = ({ file: url }) => {
+  fileInput.value = "";
   progressContainer.style.display = "none";
+  fileUrl.value = url;
+  sharingContainer.style.display = "block";
+};
+
+let toastTimer;
+const showToast = (msg) => {
+  clearTimeout(toastTimer);
+  toast.innerText = msg;
+  toast.style.transform = "translate(50%,0)";
+  toastTimer = setTimeout(() => {
+    toast.style.transform = "translate(50%,160px)";
+  }, 2000);
 };
