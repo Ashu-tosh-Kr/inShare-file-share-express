@@ -1,3 +1,5 @@
+import config from "dotenv";
+config();
 import S3 from "aws-sdk/clients/s3.js";
 import fs from "fs";
 const bucketName = "inshare";
