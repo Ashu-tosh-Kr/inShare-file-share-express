@@ -4,7 +4,7 @@ import routes from "./api/v1/index.js";
 import config from "./config/index.js";
 
 const startServer = async () => {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT;
   const app = express();
   await config(app);
   app.use("/api/v1", routes());
