@@ -24,9 +24,11 @@ const fetchData = async () => {
 };
 fetchData()
   .then(() => {
+    console.log("Successfully exiting");
     process.exit();
   })
   .catch((err) => {
     console.log(err);
+    console.log("Successfully exiting");
     process.exit();
   });
