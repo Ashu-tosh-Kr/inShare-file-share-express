@@ -3,8 +3,6 @@ import multer from "multer";
 import path from "path";
 import { v4 as uuid4 } from "uuid";
 import fs from "fs";
-import util from "util";
-const unlinkFile = util.promisify(fs.unlink);
 
 import { getFileStream, uploadFileToS3 } from "../helpers/s3.js";
 import fileModel from "../models/fileModel.js";
@@ -38,7 +36,7 @@ filesRouter.post("/", upload, async (req, res) => {
   //upload to s3
   const result = await uploadFileToS3(req.file);
   //delete local copy
-  await unlinkFile(`./${req.file.path}`);
+  fs.unlinkSync(`./${req.file.path}`);
   //make db entry
   await fileModel.create({
     filename: req.file.filename,

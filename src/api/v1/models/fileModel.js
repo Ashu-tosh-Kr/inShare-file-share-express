@@ -12,4 +12,6 @@ const fileSchema = new Schema(
   },
   { timestamps: true }
 );
-export default model("File", fileSchema);
+const fileModel = model("File", fileSchema);
+
+export default fileModel;
