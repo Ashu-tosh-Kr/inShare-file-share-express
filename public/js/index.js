@@ -12,7 +12,7 @@ const emailForm = document.querySelector("#emailForm");
 const toast = document.querySelector(".toast");
 const maxAllowedSize = 10 * 1024 * 1024;
 
-const host = "https://inshared.herokuapp.com";
+const host = "https://inshare.onrender.com";
 const uploadUrl = host + "/api/v1/files";
 
 dropZone.addEventListener("dragover", (e) => {
