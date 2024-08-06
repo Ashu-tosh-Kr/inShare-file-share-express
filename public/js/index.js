@@ -12,7 +12,8 @@ const emailForm = document.querySelector("#emailForm");
 const toast = document.querySelector(".toast");
 const maxAllowedSize = 10 * 1024 * 1024;
 
-const host = "http://localhost:8800";
+// const host = "http://localhost:8800";
+const host = "https://inshare.onrender.com";
 const uploadUrl = host + "/api/v1/files";
 
 dropZone.addEventListener("dragover", (e) => {
